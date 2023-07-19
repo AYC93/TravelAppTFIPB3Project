@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './login/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RegisterComponent } from './login/register.component';
 import { ApiService } from './api.service';
 import { MainComponent } from './planner/main/main.component';
 import { DocumentComponent } from './planner/document/document.component';
@@ -26,7 +25,6 @@ import { AuthGuard } from './auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, title: 'Home'},
-  { path: 'register', component: RegisterComponent, title: 'Create User'},
   { path: 'login', component: LoginComponent, title: 'Login Page'},
   { path: 'entry', component: EntryComponent, canActivate:[AuthGuard], title: 'Plan Entry'},
   { path: '**', redirectTo: '/', pathMatch: 'full' }
@@ -38,11 +36,10 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent,
     MainComponent,
     DocumentComponent,
     WeatherComponent,
-    EntryComponent
+    EntryComponent,
   ],
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule, RouterModule.forRoot(appRoutes, { scrollPositionRestoration: "enabled" }), BrowserAnimationsModule, MatButtonModule, MatSelectModule,

@@ -11,4 +11,8 @@ export class PlannerService{
         'Mito','Fukui','Tokushima','Yamagata','Saga','Matsue','Yamaguchi','Kofu',
         'Yawatahama-shi','Hirado'
       ]
+
+      destinationType: String[]=[
+        'Landmark', 'Accomodation', 'Transportation'
+      ]
 }

@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthConfig, JwksValidationHandler, OAuthService } from "angular-oauth2-oidc";
+import { AuthConfig, OAuthService } from "angular-oauth2-oidc";
 import { Subject, filter } from "rxjs";
 
 const oAuthConfig: AuthConfig = {
@@ -12,18 +12,10 @@ const oAuthConfig: AuthConfig = {
     showDebugInformation: true
 }
 
-export interface UserInfo {
-    info: {
-        sub: string
-        email: string,
-        name: string,
-    }
-}
 
 @Injectable()
 export class GoogleApiService {
 
-    userProfileSubject = new Subject<UserInfo>()
     router=inject(Router)
 
     constructor(private readonly oAuthSvc: OAuthService) {
@@ -57,16 +49,4 @@ export class GoogleApiService {
         this.oAuthSvc.initLoginFlow(targetUrl || this.router.url);
       }
 
-
-        // oAuthSvc.loadDiscoveryDocumentAndTryLogin().then(() => {
-        //     if (!oAuthSvc.hasValidAccessToken()) { // check if user logged in
-        //         oAuthSvc.initLoginFlow()
-        //     } else {
-        //         oAuthSvc.loadUserProfile().then( (userProfile) => {
-        //             this.userProfileSubject.next(userProfile as UserInfo)
-        //             console.info(userProfile)
-        //         })
-
-        //     }
-        // })
     }
