@@ -30,8 +30,7 @@ export class GoogleApiService {
         oAuthSvc.configure(oAuthConfig)
         
         this.oAuthSvc.loadDiscoveryDocumentAndLogin();
-
-        //this.oauthService.setupAutomaticSilentRefresh();
+        this.oAuthSvc.setupAutomaticSilentRefresh();
     
         // Automatically load user profile
         this.oAuthSvc.events

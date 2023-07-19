@@ -12,6 +12,4 @@ export class HomeComponent {
 // auth=inject(AuthService)
 // googleLogin=inject(GoogleApiService)
 
-// to add logout button as service later
-
 }

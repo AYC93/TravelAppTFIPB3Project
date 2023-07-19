@@ -12,13 +12,9 @@ import { GoogleApiService, UserInfo } from '../google-api.service';
 })
 export class LoginComponent implements OnInit{
 
-  username!: string
-  password!: string
   userInfo?: UserInfo
 
   router=inject(Router)
-  form!: FormGroup
-  fb = inject(FormBuilder)
 
   svc=inject(ApiService)
   
