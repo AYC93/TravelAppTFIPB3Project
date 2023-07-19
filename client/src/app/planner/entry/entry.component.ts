@@ -42,11 +42,11 @@ export class EntryComponent implements OnInit{
     // weather info process
   }
 
-  private createForm(){
+  private createForm():FormGroup{
     formatDate(new Date(), 'dd/MM/yyyy hh:mm a', 'en')
     return this.fb.group({
       date: this.fb.control<Date>(new Date(), [Validators.required]),
-      description: this.fb.control<string>('', [Validators.required]),
+      description: this.fb.control<string>('', [Validators.required, Validators.minLength(15)]),
       city: this.fb.control<string>('', [Validators.required]),
       destination: this.fb.control<string>('', [Validators.required])
     })

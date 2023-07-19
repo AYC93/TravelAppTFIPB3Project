@@ -21,7 +21,7 @@ export class GoogleApiService {
     constructor(private readonly oAuthSvc: OAuthService) {
         oAuthSvc.configure(oAuthConfig)
         
-        this.oAuthSvc.loadDiscoveryDocumentAndLogin();
+        this.oAuthSvc.loadDiscoveryDocument();
         this.oAuthSvc.setupAutomaticSilentRefresh();
     
         // Automatically load user profile

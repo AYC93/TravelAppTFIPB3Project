@@ -1,19 +1,29 @@
+<form [formGroup]="form" >
+  <table>
+    <!-- To add calendar date and time -->
+    <tr>
+      <input type="datetime-local" id="date" formControlName="date" placeholder="Input Date Here">
+    </tr>
+    
+    <!-- To input description of travel plan -->
+    <tr>
+      <input type="textarea" id="description" formControlName="description" rows="10" cols="50" placeholder="Please describe the itinerary">
+    </tr>
+    <!-- dropdown option for japanese cities -->
+    <tr>
+      <mat-select id="city" placeholder="City Name" formControlName="city">
+        <mat-option *ngFor="let city of svc.japCities" [value]="city" type="text" size="30">{{city}}
+        </mat-option>
+      </mat-select>
+    </tr>
 
-<!-- To add calendar date and time -->
-<input type="datetime-local" id="date" name="timestamp">
-
-<!-- dropdown option for japanese cities -->
-<td>
-  <mat-select id="city" placeholder="City Name" formControlName="city">
-  <mat-option *ngFor="let city of svc.japCities" [value]="city" type="text" size="30" >{{city}}
-  </mat-option>
-  </mat-select>
-</td>
-
-<!-- drop down options for destination types -->
-<td>
-  <mat-select id="destination" placeholder="Destination Type" formControlName="destination">
-  <mat-option *ngFor="let destination of svc.destinationType" [value]="destination" type="text" size="70" >{{ destination }}
-  </mat-option>
-  </mat-select>
-</td>
+    <!-- drop down options for destination types -->
+    <tr>
+      <mat-select id="destination" placeholder="Destination Type" formControlName="destination">
+        <mat-option *ngFor="let destination of svc.destinationType" [value]="destination" type="text" size="70">{{
+          destination }}
+        </mat-option>
+      </mat-select>
+    </tr>
+  </table>
+</form>

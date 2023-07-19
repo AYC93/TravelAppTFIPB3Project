@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 const URL='http://localhost:8080/api/entry'
@@ -20,7 +20,9 @@ export class ApiService{
     
     // Send email from google to backend for validation and storage
     public postEmailToBackend(email: string):Observable<any>{
-        return this.http.post(URL, email)
+        const params = new HttpParams()
+                    .set("email", email)
+        return this.http.post(URL, { params })
         
     }
 
