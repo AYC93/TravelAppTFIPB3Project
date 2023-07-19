@@ -1,0 +1,14 @@
+<h2>Login Page</h2>
+<table *ngIf="googleLogin.idToken">
+    <tr>
+        asdas
+        <div class="container">Name: {{ googleLogin.email }}</div>
+    </tr>
+
+    <!-- <button mat-raised-button color="basic" (click)="login()">Sign In</button> -->
+    <tr>
+        <button mat-raised-button color="basic" [routerLink]="['/entry']">Planner</button>
+    </tr>
+
+
+</table>

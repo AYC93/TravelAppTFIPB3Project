@@ -1,0 +1,10 @@
+
+<!-- To add calendar date and time -->
+<input type="datetime-local" id="birthdaytime" name="timestamp">
+
+<td>
+  <mat-select id="city" placeholder="City Name" formControlName="city">
+  <mat-option *ngFor="let city of svc.japCities" [value]="city" type="text" size="30" >{{city}}
+  </mat-option>
+  </mat-select>
+</td>
