@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class MainComponent {
 
+  //TODO to display all the things input from form
+  
 }

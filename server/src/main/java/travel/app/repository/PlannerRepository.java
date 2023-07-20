@@ -36,15 +36,15 @@ public class PlannerRepository {
     // mongoTemplate to use same email as unique id, to add into each function
 
     // display all data in table
-    public List<Planner> getPlanByUser(String user) {
+    public List<Planner> getPlanByUser(String email) {
         List<Planner> plannerList = new LinkedList<>();
-
-        user = "abc@gmail.com";
-        // replace email with login auth email in the future
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_TRAVELPLAN, user);
+        
+        // replace email with login auth email in the future        
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_TRAVELPLAN, email);
         while (rs.next()) {
             int pid = rs.getInt("pid");
             Planner planner = Planner.createFromSQLRowSet(rs);
+            // to insert mongodb document inside here
             Document doc = getDocumentByPid(pid);
             planner.setDocument(doc);
             plannerList.add(planner);
@@ -52,10 +52,10 @@ public class PlannerRepository {
         return plannerList;
     }
 
-    public int addPlanByUser(LocalDateTime datetime, String description, String city, String destinationType) {
+    // String email to be input here
+    public int addPlanByUser(LocalDateTime datetime, String description, String city, String destinationType, String email) {
 
         // replace email with login auth email in the future
-        String email = "abc@gmail.com";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

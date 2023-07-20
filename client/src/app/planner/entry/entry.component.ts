@@ -22,7 +22,6 @@ export class EntryComponent implements OnInit{
 
   googleSvc=inject(GoogleApiService)
   apiSvc=inject(ApiService)
-
   // includes Japanese cities and destination types
   svc=inject(PlannerService)
 
@@ -50,8 +49,19 @@ export class EntryComponent implements OnInit{
       date: this.fb.control<Date>(new Date(), [Validators.required]),
       description: this.fb.control<string>('', [Validators.required, Validators.minLength(15)]),
       city: this.fb.control<string>('', [Validators.required]),
-      destination: this.fb.control<string>('', [Validators.required])
+      destination: this.fb.control<string>('', [Validators.required]),
+      file: this.fb.control<File | null> (null)
     })
+  }
+
+  // authenticate login
+  isLoggedIn():boolean{
+    return this.googleSvc.isLoggedIn()
+  }
+  
+  //logout function
+  logout(){
+    this.googleSvc.logout()
   }
 
 }

@@ -10,30 +10,33 @@ import { GoogleApiService } from '../google-api.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, AfterViewInit{
+export class LoginComponent implements AfterViewInit {
 
-  email!:string
+  email!: string
 
-  router=inject(Router)
+  router = inject(Router)
 
-  svc=inject(ApiService)
-  
-  constructor(readonly googleLogin: GoogleApiService){
-    console.info(">>> email: " + (googleLogin.email) )
-    console.info(">>> idToken: " + (googleLogin.idToken) )
+  svc = inject(ApiService)
+
+  constructor(readonly googleLogin: GoogleApiService) {
+    console.info(">>> email: " + (googleLogin.email))
+    console.info(">>> idToken: " + (googleLogin.idToken))
   }
 
-  ngOnInit(): void {
-    this.email = this.googleLogin.email
-    if(this.email)
-      this.svc.postEmailToBackend(this.email)
-  }
-  
   ngAfterViewInit(): void {
-
+    this.email = this.googleLogin.email
+    if (this.email) {
+      this.svc.postEmailToBackend(this.email).subscribe({
+        next: n => {
+          console.log('Response from server... ', n)
+          console.info("posted>>> " + this.email)
+        },
+        error: err => { console.log('Error!!!... ', err) }
+      })
+    }
   }
 
-  login(){
+  login() {
     // let resp = this.svc.login(this.username, this.password)
     // // resp.subscribe(data => {
     // //   console.log(data)

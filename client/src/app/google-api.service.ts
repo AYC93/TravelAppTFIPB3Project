@@ -57,4 +57,10 @@ export class GoogleApiService {
         this.oAuthSvc.initLoginFlow(targetUrl || this.router.url);
       }
 
+      // logout button
+      public logout(){
+        this.oAuthSvc.logOut()
+        this.router.navigate(['/'])
+      }
+
     }

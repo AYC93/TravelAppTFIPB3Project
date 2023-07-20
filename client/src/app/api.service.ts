@@ -18,10 +18,8 @@ export class ApiService {
     // to troubleshoot!!!
     // Send email from google to backend for validation and storage
     postEmailToBackend(email: string): Observable<string> {
-        const params = new HttpParams()
-                    .set("email", email)
-        console.info(params)
-        return this.http.post<string>(URL, { params })
+        const payload = {email : email}
+        return this.http.post<string>(URL, payload)
     }
 
 }
