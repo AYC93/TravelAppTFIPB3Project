@@ -2,15 +2,18 @@
   <table>
     <!-- To add calendar date and time -->
     <tr>
+      Date<br>
       <input type="datetime-local" id="date" formControlName="date" placeholder="Input Date Here">
     </tr>
     
     <!-- To input description of travel plan -->
     <tr>
-      <input type="textarea" id="description" formControlName="description" rows="10" cols="50" placeholder="Please describe the itinerary">
+      Description:<br>
+      <input type="textarea" id="description" formControlName="description" rows="50" cols="50" placeholder="Please describe the itinerary">
     </tr>
     <!-- dropdown option for japanese cities -->
     <tr>
+      City:
       <mat-select id="city" placeholder="City Name" formControlName="city">
         <mat-option *ngFor="let city of svc.japCities" [value]="city" type="text" size="30">{{city}}
         </mat-option>
@@ -19,6 +22,7 @@
 
     <!-- drop down options for destination types -->
     <tr>
+      Destination Type:
       <mat-select id="destination" placeholder="Destination Type" formControlName="destination">
         <mat-option *ngFor="let destination of svc.destinationType" [value]="destination" type="text" size="70">{{
           destination }}

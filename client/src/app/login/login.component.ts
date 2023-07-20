@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
@@ -10,7 +10,7 @@ import { GoogleApiService } from '../google-api.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, AfterViewInit{
 
   email!:string
 
@@ -24,6 +24,10 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+  }
+  
+  ngAfterViewInit(): void {
     this.email = this.googleLogin.email
     if(this.email)
       this.svc.postEmailToBackend(this.email)

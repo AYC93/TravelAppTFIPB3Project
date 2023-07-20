@@ -2,6 +2,6 @@ export interface CityWeather{
     city: string
 }
 
-export interface GoogleOAuth{
+export interface GoogleUser{
     email: string
 }

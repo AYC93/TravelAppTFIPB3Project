@@ -30,6 +30,8 @@ export class EntryComponent implements OnInit{
 
 
   ngOnInit(): void {
+    // initialise form
+    this.form = this.createForm()
     this.email = this.googleSvc.email
     this.apiSvc.postEmailToBackend(this.email)
     this.form = this.createForm()
