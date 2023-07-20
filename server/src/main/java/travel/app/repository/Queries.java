@@ -3,11 +3,11 @@ package travel.app.repository;
 public class Queries {
 
         public static final String SQL_FIND_EMAIL = """
-                        select * from users where email = ?
+                        select * from user where email = ?
                         """;
 
         public static final String SQL_INSERT_LOGIN = """
-                        INSERT INTO login (email) VALUES (?)
+                        INSERT INTO user (email) VALUES (?)
                         """;
 
         public static final String SQL_GET_TRAVELPLAN = """
@@ -19,7 +19,7 @@ public class Queries {
                         """;
 
         public static final String SQL_FIND_EMAILID="""
-                        select * from user where email_id = ? as emailId
+                        select email_id as emailId from user where email = ?
                         """;
 
         public static final String SQL_ADD_TRAVELPLAN="""

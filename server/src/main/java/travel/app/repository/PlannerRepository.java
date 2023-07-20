@@ -30,6 +30,9 @@ public class PlannerRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private UserRepository userRepo;
+
     // mongoTemplate to use same email as unique id, to add into each function
 
     // display all data in table
@@ -62,7 +65,7 @@ public class PlannerRepository {
             ps.setString(2, description);
             ps.setString(3, city);
             ps.setString(4, destinationType);
-            ps.setInt(5, getEmailId(email));
+            ps.setInt(5, userRepo.getEmailId(email));
             ps.setString(6, email);
             return ps;
         }, keyHolder);
@@ -76,17 +79,7 @@ public class PlannerRepository {
 
     }
 
-    /*  
-     * Helper method
-     */
-    private int getEmailId(String email) {
-        // to replace emailId by searching up emailId in user
-        int emailId = 0;
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_FIND_EMAILID, email);
-        while (rs.next())
-            emailId = rs.getInt("emailId");
-        return emailId;
-    }
+ 
 
     private Document getDocumentByPid(int pid) {
         Query query = new Query(Criteria.where("pid").is(pid));
