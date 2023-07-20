@@ -20,6 +20,7 @@ export class ApiService {
     postEmailToBackend(email: string): Observable<string> {
         const params = new HttpParams()
                     .set("email", email)
+        console.info(params)
         return this.http.post<string>(URL, { params })
     }
 

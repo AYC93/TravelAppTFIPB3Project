@@ -1,8 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthConfig, OAuthService } from "angular-oauth2-oidc";
+import { AuthConfig, OAuthErrorEvent, OAuthService } from "angular-oauth2-oidc";
 import { Subject, filter } from "rxjs";
-import { ApiService } from "./api.service";
 
 const oAuthConfig: AuthConfig = {
     issuer: 'https://accounts.google.com',
@@ -18,19 +17,25 @@ const oAuthConfig: AuthConfig = {
 export class GoogleApiService {
 
     router=inject(Router)
-    apiSvc=inject(ApiService)
 
     constructor(private readonly oAuthSvc: OAuthService) {
-        oAuthSvc.configure(oAuthConfig)
-        
-        this.oAuthSvc.loadDiscoveryDocumentAndLogin();
-        this.oAuthSvc.setupAutomaticSilentRefresh();
-            
-        // Automatically load user profile
-        this.oAuthSvc.events
-          .pipe(filter( (e) => e.type === 'token_received'))
-          .subscribe( (_) => this.oAuthSvc.loadUserProfile());
+      oAuthSvc.configure(oAuthConfig)
+      
+      oAuthSvc.loadDiscoveryDocument().then( () => {
+        oAuthSvc.tryLoginImplicitFlow().then( () => {
+          if (!oAuthSvc.hasValidAccessToken()) {
+            oAuthSvc.initLoginFlow()}
+            else{
+               // Automatically load user profile
+      this.oAuthSvc.events
+      .pipe(filter( (e) => e.type === 'token_received'))
+      .subscribe( (_) => this.oAuthSvc.loadUserProfile())
       }
+    })
+    })
+          
+
+    }
     
       get email(): string {
         const claims = this.oAuthSvc.getIdentityClaims();

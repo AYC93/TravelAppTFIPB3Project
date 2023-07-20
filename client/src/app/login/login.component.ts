@@ -24,13 +24,13 @@ export class LoginComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-
-  }
-  
-  ngAfterViewInit(): void {
     this.email = this.googleLogin.email
     if(this.email)
       this.svc.postEmailToBackend(this.email)
+  }
+  
+  ngAfterViewInit(): void {
+
   }
 
   login(){
