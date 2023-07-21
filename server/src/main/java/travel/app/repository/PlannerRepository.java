@@ -3,6 +3,7 @@ package travel.app.repository;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -73,8 +74,10 @@ public class PlannerRepository {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        System.out.println("email Id obtained from repo: " + userRepo.getEmailId(email));
+
         jdbcTemplate.update(conn -> {
-            PreparedStatement ps = conn.prepareStatement(SQL_ADD_TRAVELPLAN);
+            PreparedStatement ps = conn.prepareStatement(SQL_ADD_TRAVELPLAN, Statement.RETURN_GENERATED_KEYS);
             ps.setTimestamp(1, Timestamp.valueOf(datetime));
             ps.setString(2, description);
             ps.setString(3, city);

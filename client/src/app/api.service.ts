@@ -23,7 +23,7 @@ export class ApiService {
     }
 
     // Set data for send for file uploading
-    async postFormToBackend(formField: FormField): Promise<any> {
+    async postFormToBackend(formField: FormField, email: string): Promise<any> {
         console.info(formField.file.name)
         const formData = new FormData()
         formData.set('file', formField.file)
@@ -31,6 +31,7 @@ export class ApiService {
         formData.set('description', formField.description)
         formData.set('city', formField.city)
         formData.set('destination', formField.destination)
+        formData.set('email', email)
         const headers = new HttpHeaders().set('Content-Type', 'multipart/form-data')
         return firstValueFrom(this.http.post<any>(URL + '/post', formData))
             .then(p => {

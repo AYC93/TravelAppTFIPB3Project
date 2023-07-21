@@ -51,17 +51,21 @@ public class RestController {
         sess.setAttribute("email", email);
         sess.setAttribute("emailId", emailId);
         System.out.println("Login Data= " + login);
+        System.out.println("Stored email= " + sess.getAttribute("email"));
+        System.out.println("Stored email id= " + sess.getAttribute("emailId"));
 
         return ResponseEntity.ok(login);
     }
 
     @PostMapping(path = "/entry/post")
     @ResponseBody
-    public ResponseEntity<Planner> postFormToRepo(@RequestParam MultiValueMap<String, String> formData,
+    public ResponseEntity<String> postFormToRepo(@RequestParam MultiValueMap<String, String> formData,
             @RequestParam(required = false) MultipartFile file, HttpSession sess) throws IOException {
         // planner.getCity()... after dinner
 
         Planner p = new Planner();
+
+        System.out.println("email is: " + sess.getAttribute("email"));
 
         // Client to server data
         String dateTimeString = formData.getFirst("date");
@@ -69,7 +73,7 @@ public class RestController {
         String description = formData.getFirst("description");
         String city = formData.getFirst("city");
         String destinationType = formData.getFirst("destination");
-        String email = (String) sess.getAttribute("emailId");
+        String email = formData.getFirst("email");
         int emailId = userSvc.getEmailId(email);
 
         // File upload & generate url
@@ -86,8 +90,7 @@ public class RestController {
         p.setUrl(url);
         p.setPid(pid);
 
-        sess.setAttribute("planner", p);
 
-        return ResponseEntity.ok(p);
+        return ResponseEntity.ok(String.valueOf(p.getPid()));
     }
 }

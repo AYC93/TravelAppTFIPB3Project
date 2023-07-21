@@ -4,6 +4,7 @@ export interface FormField{
     city: string
     destination: string
     file: File
+    googleUser: GoogleUser
 }
 
 export interface GoogleUser{

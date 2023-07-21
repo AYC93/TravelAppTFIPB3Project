@@ -15,17 +15,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./entry.component.css']
 })
 export class EntryComponent implements OnInit {
+  googleSvc = inject(GoogleApiService)
 
   @ViewChild('uploadDoc')
   fileRef!: ElementRef
-  email!: string
+  email: string = this.googleSvc.email
   form!: FormGroup
 
   fb = inject(FormBuilder)
   router = inject(Router)
   snackBar = inject(MatSnackBar)
 
-  googleSvc = inject(GoogleApiService)
   apiSvc = inject(ApiService)
   // includes Japanese cities and destination types
   svc = inject(PlannerService)
@@ -33,7 +33,6 @@ export class EntryComponent implements OnInit {
   ngOnInit(): void {
     // initialise form
     this.form = this.createForm()
-    this.email = this.googleSvc.email
     this.apiSvc.postEmailToBackend(this.email)
     this.form = this.createForm()
   }
@@ -52,7 +51,7 @@ export class EntryComponent implements OnInit {
       file: f
     }
 
-    this.apiSvc.postFormToBackend(formField).then((resp) => {
+    this.apiSvc.postFormToBackend(formField, this.email).then((resp) => {
       console.log('Response from server... ', resp)
       console.info("posted>>> " + formField.city + formField.description)
       // prompt to show successful post
