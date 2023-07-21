@@ -2,8 +2,12 @@ package travel.app.repository;
 
 public class Queries {
 
+        public static final String BUCKETNAME = """
+                        traveldoc
+                        """;
+
         public static final String SQL_FIND_EMAIL = """
-                        select * from user where email = ?
+                        SELECT * FROM user where email = ?
                         """;
 
         public static final String SQL_INSERT_LOGIN = """
@@ -11,7 +15,7 @@ public class Queries {
                         """;
 
         public static final String SQL_GET_TRAVELPLAN = """
-                        SELECT u.email, tp.datetime, tp.description, tp.city, tp.destination AS dest
+                        SELECT tp.datetime, tp.description, tp.city, tp.url, tp.destination AS dest, tp.pid u.email_id
                         FROM user u
                         JOIN travelplan tp ON u.email_id = tp.email_id
                         WHERE u.email = ?

@@ -16,6 +16,7 @@ CREATE TABLE travelplan (
   description varchar(800) NOT NULL,
   city varchar(60) NOT NULL,
   destination varchar(45) NOT NULL,
+  url varchar(100),
   email_id int(60) NOT NULL,
   PRIMARY KEY (pid),
   CONSTRAINT email_id 

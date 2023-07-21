@@ -1,21 +1,34 @@
 package travel.app.repository;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+// import org.springframework.data.mongodb.core.MongoTemplate;
+// import org.springframework.data.mongodb.core.query.Criteria;
+// import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 
 import travel.app.model.PlannerModel.Planner;
 
@@ -27,8 +40,11 @@ public class PlannerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // @Autowired
+    // private MongoTemplate mongoTemplate;
+
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private AmazonS3 s3;
 
     @Autowired
     private UserRepository userRepo;
@@ -45,17 +61,15 @@ public class PlannerRepository {
             int pid = rs.getInt("pid");
             Planner planner = Planner.createFromSQLRowSet(rs);
             // to insert mongodb document inside here
-            Document doc = getDocumentByPid(pid);
-            planner.setDocument(doc);
+            // MultipartFile file = getFileByPid(pid);
+            // planner.setFile(file);
             plannerList.add(planner);
         }
         return plannerList;
     }
 
     // String email to be input here
-    public int addPlanByUser(LocalDateTime datetime, String description, String city, String destinationType, String email) {
-
-        // replace email with login auth email in the future
+    public int addPlanByUser(LocalDateTime datetime, String description, String city, String destinationType, String email, String url) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -67,6 +81,7 @@ public class PlannerRepository {
             ps.setString(4, destinationType);
             ps.setInt(5, userRepo.getEmailId(email));
             ps.setString(6, email);
+            ps.setString(7, url);
             return ps;
         }, keyHolder);
 
@@ -79,11 +94,38 @@ public class PlannerRepository {
 
     }
 
- 
+    // Upload via S3
+    public URL uploadFileByUser(MultipartFile file) throws IOException{
+        // Custom metadata
+        Map<String, String> fileData = new HashMap<>();
+        fileData.put("filename", file.getOriginalFilename());
+        fileData.put("upload-date", (new Date()).toString());
+        
+        ObjectMetadata md = new ObjectMetadata();
+        md.setContentType(file.getContentType());
+        md.setContentLength(file.getSize());
+        md.setUserMetadata(fileData);
 
-    private Document getDocumentByPid(int pid) {
-        Query query = new Query(Criteria.where("pid").is(pid));
-        return mongoTemplate.findOne(query, Document.class, "document");
+        String fileKey = "file/%s".formatted(UUID.randomUUID().toString()
+                                .substring(0, 8));
+        
+        PutObjectRequest pReq = new PutObjectRequest(BUCKETNAME, fileKey, 
+                                file.getInputStream(), md);
+        pReq = pReq.withCannedAcl(CannedAccessControlList.PublicRead);
+
+        try {
+            PutObjectResult pRes = s3.putObject(pReq);
+        } catch (AmazonClientException e) {
+            throw new IOException("Upload failed.");
+        }
+
+        return s3.getUrl(BUCKETNAME, fileKey);
     }
+
+    // get file to view
+    // private MultipartFile getFileByPid(int pid) {
+    //     Query query = new Query(Criteria.where("pid").is(pid));
+    //     return mongoTemplate.findOne(query, MultipartFile.class, "file");
+    // }
 
 }

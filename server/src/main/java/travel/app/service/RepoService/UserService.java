@@ -15,4 +15,8 @@ public class UserService {
     public int addLoginSvc(LoginDTO loginDTO) {
         return userRepo.addLogin(loginDTO);
     }
+
+    public int getEmailId(String email){
+        return userRepo.getEmailId(email);
+    }
 }

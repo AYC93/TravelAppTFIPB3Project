@@ -3,7 +3,6 @@ package travel.app.model.PlannerModel;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import org.bson.Document;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import lombok.AllArgsConstructor;
@@ -15,29 +14,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Planner {
     private int pid;
-    private String email;
+    private int emailId;
     private LocalDateTime dateTime;
     private String description;
     private String city;
     private String destinationType;
-    private Document document;
+    private String url;
 
     public static Planner createFromSQLRowSet(SqlRowSet rs) {
         return new Planner(rs.getInt("pid"),
-                rs.getString("email"),
+                rs.getInt("email_id"),
                 toLocalDateTime(rs.getTimestamp("datetime")),
                 rs.getString("description"),
                 rs.getString("city"),
-                rs.getString("dest"),
-                null);
-    }
+                rs.getString("destination"),
+                rs.getString("url")
+                );}
 
     private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
             return timestamp.toLocalDateTime();
         }
-    
-    public void setDocument(Document document){
-        this.document = document;
-    }
 
     }
