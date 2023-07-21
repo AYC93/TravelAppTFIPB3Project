@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { firstValueFrom, Observable } from "rxjs";
 import { FormField } from "./model";
 
@@ -24,8 +24,14 @@ export class ApiService {
 
     // Set data for send for file uploading
     async postFormToBackend(formField: FormField): Promise<any> {
+        console.info(formField.file.name)
         const formData = new FormData()
         formData.set('file', formField.file)
+        formData.set('date', formField.date.toLocaleString())
+        formData.set('description', formField.description)
+        formData.set('city', formField.city)
+        formData.set('destination', formField.destination)
+        const headers = new HttpHeaders().set('Content-Type', 'multipart/form-data')
         return firstValueFrom(this.http.post<any>(URL + '/post', formData))
             .then(p => {
                 console.log('Form sent sucessfully, file ID: ', p.id)

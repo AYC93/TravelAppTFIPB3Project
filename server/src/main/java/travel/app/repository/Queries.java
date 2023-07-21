@@ -27,6 +27,6 @@ public class Queries {
                         """;
 
         public static final String SQL_ADD_TRAVELPLAN="""
-                        INSERT INTO planner (datetime, description, city, destination, email_id) VALUES (?, ?, ?, ?, ?)
+                        INSERT INTO travelplan (datetime, description, city, destination, url, email_id) VALUES (?, ?, ?, ?, ?, ?)
                         """;
 }

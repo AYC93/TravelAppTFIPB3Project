@@ -74,14 +74,13 @@ public class PlannerRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(conn -> {
-            PreparedStatement ps = conn.prepareStatement(SQL_ADD_TRAVELPLAN, new String[] { "pid" });
+            PreparedStatement ps = conn.prepareStatement(SQL_ADD_TRAVELPLAN);
             ps.setTimestamp(1, Timestamp.valueOf(datetime));
             ps.setString(2, description);
             ps.setString(3, city);
             ps.setString(4, destinationType);
-            ps.setInt(5, userRepo.getEmailId(email));
-            ps.setString(6, email);
-            ps.setString(7, url);
+            ps.setString(5, url);
+            ps.setInt(6, userRepo.getEmailId(email));
             return ps;
         }, keyHolder);
 

@@ -39,12 +39,13 @@ export class EntryComponent implements OnInit {
   }
 
   // POST FORM TO BACKEND
-  process() {
-    // post to directly view weather api
+     // post to directly view weather api
     // weather info process
     // const weatherQuery = this.form.value as CityWeather
     // weatherQuery.city = this.form.get('city')?.value as string
     // weather info process
+  process() {
+    
     const f: File = this.fileRef.nativeElement.files[0]
     const formField: FormField = {
       ... this.form.value,
@@ -53,7 +54,7 @@ export class EntryComponent implements OnInit {
 
     this.apiSvc.postFormToBackend(formField).then((resp) => {
       console.log('Response from server... ', resp)
-      console.info("posted>>> " + formField)
+      console.info("posted>>> " + formField.city + formField.description)
       // prompt to show successful post
       this.snackBar.open('Entry sucessful!', 'Close', {
         duration: 2500,
@@ -69,6 +70,7 @@ export class EntryComponent implements OnInit {
   }
 
   private createForm(): FormGroup {
+    
     formatDate(new Date(), 'dd/MM/yyyy hh:mm a', 'en')
     return this.fb.group({
       date: this.fb.control<Date>(new Date(), [Validators.required]),

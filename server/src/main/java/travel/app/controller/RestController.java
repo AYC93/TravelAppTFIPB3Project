@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,39 +36,40 @@ public class RestController {
     @PostMapping(path = "/entry")
     @ResponseBody
     public ResponseEntity<LoginDTO> addOrCheckEmail(@RequestBody Map<String, String> payload, HttpSession sess) {
-        LoginDTO loginData = new LoginDTO();
+        LoginDTO login = new LoginDTO();
 
-        loginData.setEmail(payload.get("email"));
+        login.setEmail(payload.get("email"));
 
-        String email = loginData.getEmail();
+        String email = login.getEmail();
         System.out.println(email);
 
-        int emailId = userSvc.addLoginSvc(loginData);
+        int emailId = userSvc.addLoginSvc(login);
 
-        loginData.setEmailId(emailId);
+        login.setEmailId(emailId);
+        System.out.println(emailId);
 
-        sess.setAttribute("loginData", loginData);
+        sess.setAttribute("email", email);
+        sess.setAttribute("emailId", emailId);
+        System.out.println("Login Data= " + login);
 
-        return ResponseEntity.ok(loginData);
+        return ResponseEntity.ok(login);
     }
 
     @PostMapping(path = "/entry/post")
     @ResponseBody
-    public ResponseEntity<Planner> postFormToRepo(@RequestPart MultiValueMap<String, String> formField,
-            @RequestPart("file") MultipartFile file, HttpSession sess) throws IOException {
+    public ResponseEntity<Planner> postFormToRepo(@RequestParam MultiValueMap<String, String> formData,
+            @RequestParam(required = false) MultipartFile file, HttpSession sess) throws IOException {
         // planner.getCity()... after dinner
 
         Planner p = new Planner();
 
-        LoginDTO loginData = (LoginDTO) sess.getAttribute("loginData");
-
         // Client to server data
-        String dateTimeString = formField.getFirst("date");
+        String dateTimeString = formData.getFirst("date");
         LocalDateTime dateTime = plannerSvc.stringToDateTime(dateTimeString);
-        String description = formField.getFirst("description");
-        String city = formField.getFirst("city");
-        String destinationType = formField.getFirst("destination");
-        String email = loginData.getEmail();
+        String description = formData.getFirst("description");
+        String city = formData.getFirst("city");
+        String destinationType = formData.getFirst("destination");
+        String email = (String) sess.getAttribute("emailId");
         int emailId = userSvc.getEmailId(email);
 
         // File upload & generate url

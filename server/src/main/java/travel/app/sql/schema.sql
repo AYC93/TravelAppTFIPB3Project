@@ -11,7 +11,7 @@ PRIMARY KEY (email_id)
 
 DROP TABLE IF EXISTS travelplan;
 CREATE TABLE travelplan (
-  pid int(21) NOT NULL,
+  pid int(21) NOT NULL AUTO_INCREMENT,
   datetime DATETIME NOT NULL,
   description varchar(800) NOT NULL,
   city varchar(60) NOT NULL,

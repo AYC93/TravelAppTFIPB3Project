@@ -1,6 +1,6 @@
 <button mat-stroked-button color="accent" *ngIf="isLoggedIn()" href="#" (click)="logout()" class="btn btn-link">Log Out</button>
 
-<form [formGroup]="form" (submit)="process()">
+<form [formGroup]="form" (ngSubmit)="process()">
   <table>
     <!-- To add calendar date and time -->
     <tr>
