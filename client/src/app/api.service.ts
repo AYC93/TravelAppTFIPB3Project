@@ -1,6 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { firstValueFrom, Observable } from "rxjs";
+import { FormField } from "./model";
 
 const URL = 'http://localhost:8080/api/entry'
 
@@ -15,11 +16,23 @@ export class ApiService {
     //     return this.http.get("http://localhost:8080/", {headers})
     // }
 
-    // to troubleshoot!!!
     // Send email from google to backend for validation and storage
     postEmailToBackend(email: string): Observable<string> {
-        const payload = {email : email}
+        const payload = { email: email }
         return this.http.post<string>(URL, payload)
+    }
+
+    // Set data for send for file uploading
+    async postFormToBackend(formField: FormField): Promise<any> {
+        const formData = new FormData()
+        formData.set('file', formField.file)
+        return firstValueFrom(this.http.post<any>(URL + '/post', formData))
+            .then(p => {
+                console.log('Form sent sucessfully, file ID: ', p.id)
+            }
+            ).catch(
+                err => console.error(err)
+            )
     }
 
 }

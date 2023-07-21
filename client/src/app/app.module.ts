@@ -5,8 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { Routes, RouterModule } from '@angular/router';
 // import { AuthModule } from '@auth0/auth0-angular';
 
+// Material imports
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { AppComponent } from './app.component';
@@ -43,7 +45,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule, RouterModule.forRoot(appRoutes, { scrollPositionRestoration: "enabled" }), BrowserAnimationsModule, MatButtonModule, MatSelectModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(), MatSnackBarModule
   ],
   providers: [ApiService, PlannerService, GoogleApiService, AuthGuard],
   bootstrap: [AppComponent]

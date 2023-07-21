@@ -1,6 +1,6 @@
 <button mat-stroked-button color="accent" *ngIf="isLoggedIn()" href="#" (click)="logout()" class="btn btn-link">Log Out</button>
 
-<form [formGroup]="form" >
+<form [formGroup]="form" (submit)="process()">
   <table>
     <!-- To add calendar date and time -->
     <tr>
@@ -31,5 +31,14 @@
         </mat-option>
       </mat-select>
     </tr>
+    <tr>
+      Upload Document:<br>
+      <input type="file" formControlName="file" #uploadDoc>
+    </tr>
+    <tr>
+      <button type="submit" [disabled]="form.invalid">Upload</button>
+    </tr>
   </table>
 </form>
+
+<!-- Snackbar html -->
