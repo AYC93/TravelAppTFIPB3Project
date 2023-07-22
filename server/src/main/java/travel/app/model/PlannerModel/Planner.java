@@ -24,15 +24,15 @@ public class Planner {
     public static Planner createFromSQLRowSet(SqlRowSet rs) {
         return new Planner(rs.getInt("pid"),
                 rs.getInt("email_id"),
-                toLocalDateTime(rs.getTimestamp("datetime")),
+                LocalDateTime.parse(rs.getString("datetime")),
                 rs.getString("description"),
                 rs.getString("city"),
                 rs.getString("destination"),
                 rs.getString("url")
                 );}
 
-    private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
-            return timestamp.toLocalDateTime();
-        }
+    // private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
+    //         return timestamp.toLocalDateTime();
+    //     }
 
     }

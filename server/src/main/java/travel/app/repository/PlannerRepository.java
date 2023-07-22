@@ -53,24 +53,20 @@ public class PlannerRepository {
     // mongoTemplate to use same email as unique id, to add into each function
 
     // display all data in table
-    public List<Planner> getPlanByUser(String email) {
+    public List<Planner> getPlanByUser(int emailId) {
         List<Planner> plannerList = new LinkedList<>();
         
         // replace email with login auth email in the future        
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_TRAVELPLAN, email);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_TRAVELPLAN, emailId);
         while (rs.next()) {
-            int pid = rs.getInt("pid");
             Planner planner = Planner.createFromSQLRowSet(rs);
-            // to insert mongodb document inside here
-            // MultipartFile file = getFileByPid(pid);
-            // planner.setFile(file);
             plannerList.add(planner);
         }
         return plannerList;
     }
 
     // String email to be input here
-    public int addPlanByUser(LocalDateTime datetime, String description, String city, String destinationType, String email, String url) {
+    public int addPlanByUser(LocalDateTime dateTime, String description, String city, String destinationType, String email, String url) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -78,7 +74,7 @@ public class PlannerRepository {
 
         jdbcTemplate.update(conn -> {
             PreparedStatement ps = conn.prepareStatement(SQL_ADD_TRAVELPLAN, Statement.RETURN_GENERATED_KEYS);
-            ps.setTimestamp(1, Timestamp.valueOf(datetime));
+            ps.setTimestamp(1, Timestamp.valueOf(dateTime));
             ps.setString(2, description);
             ps.setString(3, city);
             ps.setString(4, destinationType);
@@ -88,12 +84,9 @@ public class PlannerRepository {
         }, keyHolder);
 
         int pid = keyHolder.getKey().intValue();
+        System.out.println("PID is " + pid);
 
         return pid;
-    }
-
-    public void delPlanByUser(int pid) {
-
     }
 
     // Upload via S3
@@ -122,6 +115,10 @@ public class PlannerRepository {
         }
 
         return s3.getUrl(BUCKETNAME, fileKey);
+    }
+
+    public void delPlanByUser(int pid) {
+
     }
 
     // get file to view

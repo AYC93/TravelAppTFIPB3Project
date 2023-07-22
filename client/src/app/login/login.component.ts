@@ -24,23 +24,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.email = this.googleLogin.email
-    if (this.email) {
-      this.svc.postEmailToBackend(this.email).subscribe({
-        next: n => {
-          console.log('Response from server... ', n)
-          console.info("posted>>> " + this.email)
-        },
-        error: err => { console.log('Error!!!... ', err) }
-      })
-    }
-  }
-
-  login() {
-    // let resp = this.svc.login(this.username, this.password)
-    // // resp.subscribe(data => {
-    // //   console.log(data)
-    // // })
+  
   }
 
 }

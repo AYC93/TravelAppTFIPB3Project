@@ -23,7 +23,7 @@ import travel.app.service.WeatherService.WeatherService;
 
 @CrossOrigin
 @Controller
-@RequestMapping(path="api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path="/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class WeatherController {
     
     @Autowired

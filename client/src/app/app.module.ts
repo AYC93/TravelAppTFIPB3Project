@@ -17,7 +17,6 @@ import { HomeComponent } from './login/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from './api.service';
 import { MainComponent } from './planner/main/main.component';
-import { DocumentComponent } from './planner/document/document.component';
 import { WeatherComponent } from './planner/weather/weather.component';
 import { PlannerService } from './planner.service';
 import { EntryComponent } from './planner/entry/entry.component';
@@ -29,6 +28,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent, title: 'Home'},
   { path: 'login', component: LoginComponent, title: 'Login Page'},
   { path: 'entry', component: EntryComponent, canActivate:[AuthGuard], title: 'Plan Entry'},
+  { path: 'main', component: MainComponent, canActivate:[AuthGuard], title: 'Plans'},
   { path: '**', redirectTo: '/', pathMatch: 'full' }
   
 ]
@@ -39,7 +39,6 @@ const appRoutes: Routes = [
     LoginComponent,
     HomeComponent,
     MainComponent,
-    DocumentComponent,
     WeatherComponent,
     EntryComponent,
   ],

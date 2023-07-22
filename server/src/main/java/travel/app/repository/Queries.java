@@ -15,10 +15,10 @@ public class Queries {
                         """;
 
         public static final String SQL_GET_TRAVELPLAN = """
-                        SELECT tp.datetime, tp.description, tp.city, tp.url, tp.destination AS dest, tp.pid u.email_id
+                        SELECT tp.datetime, tp.description, tp.city, tp.destination AS dest, tp.url, tp.pid, u.email_id
                         FROM user u
                         JOIN travelplan tp ON u.email_id = tp.email_id
-                        WHERE u.email = ?
+                        WHERE u.email_id = ?
                         ORDER BY tp.datetime ASC;
                         """;
 

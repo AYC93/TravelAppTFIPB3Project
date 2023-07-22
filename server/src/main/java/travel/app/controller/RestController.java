@@ -2,6 +2,8 @@ package travel.app.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +37,12 @@ public class RestController {
     @Autowired
     PlannerService plannerSvc;
 
+    @Autowired
+    WeatherController weatherController;
+
     @PostMapping(path = "/entry")
     @ResponseBody
-    public ResponseEntity<LoginDTO> addOrCheckEmail(@RequestBody Map<String, String> payload, HttpSession sess) {
+    public ResponseEntity<LoginDTO> addOrCheckEmail(@RequestBody Map<String, String> payload) {
         LoginDTO login = new LoginDTO();
 
         login.setEmail(payload.get("email"));
@@ -47,19 +54,14 @@ public class RestController {
 
         login.setEmailId(emailId);
         System.out.println(emailId);
-
-        sess.setAttribute("email", email);
-        sess.setAttribute("emailId", emailId);
         System.out.println("Login Data= " + login);
-        System.out.println("Stored email= " + sess.getAttribute("email"));
-        System.out.println("Stored email id= " + sess.getAttribute("emailId"));
 
         return ResponseEntity.ok(login);
     }
 
     @PostMapping(path = "/entry/post")
     @ResponseBody
-    public ResponseEntity<String> postFormToRepo(@RequestParam MultiValueMap<String, String> formData,
+    public ResponseEntity<Planner> postFormToRepo(@RequestParam MultiValueMap<String, String> formData,
             @RequestParam(required = false) MultipartFile file, HttpSession sess) throws IOException {
         // planner.getCity()... after dinner
 
@@ -80,7 +82,6 @@ public class RestController {
         String url = plannerSvc.uploadFileByUser(file).toString();
         // Form upload & generate pid
         int pid = plannerSvc.addPlanByUser(dateTime, description, city, destinationType, email, url);
-
         // Setup planner
         p.setCity(city);
         p.setDateTime(dateTime);
@@ -90,7 +91,17 @@ public class RestController {
         p.setUrl(url);
         p.setPid(pid);
 
+        String response = "PID is " + String.valueOf(p.getPid());
 
-        return ResponseEntity.ok(String.valueOf(p.getPid()));
+        return ResponseEntity.ok(p);
+    }
+
+    @GetMapping(path = "/main")
+    @ResponseBody
+    public ResponseEntity<List<Planner>> getDataFromEmailId(@RequestParam int emailId) {
+        List<Planner> plannerList = new LinkedList<>();
+        plannerList.addAll(plannerSvc.getPlanByUser(emailId));
+        System.out.println(plannerList);
+        return ResponseEntity.ok(plannerList);
     }
 }

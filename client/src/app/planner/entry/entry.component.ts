@@ -26,11 +26,28 @@ export class EntryComponent implements OnInit {
   router = inject(Router)
   snackBar = inject(MatSnackBar)
 
+  googleLogin=inject(GoogleApiService)
   apiSvc = inject(ApiService)
   // includes Japanese cities and destination types
   svc = inject(PlannerService)
 
   ngOnInit(): void {
+    if (localStorage.getItem('email') === null || localStorage.getItem('email') === '') {
+      window.location.reload
+    } else {
+      const storedEmail = localStorage.getItem('email')
+      this.email = storedEmail ? storedEmail : ''
+    }
+    this.email = this.googleLogin.email
+    if (this.email) {
+      this.apiSvc.postEmailToBackend(this.email).subscribe({
+        next: n => {
+          console.log('Response from server... ', n)
+          console.info("posted>>> " + this.email)
+        },
+        error: err => { console.log('Error!!!... ', err) }
+      })
+    }
     // initialise form
     this.form = this.createForm()
     this.apiSvc.postEmailToBackend(this.email)
