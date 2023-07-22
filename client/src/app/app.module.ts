@@ -27,6 +27,7 @@ import { LocalStorageService } from './localstorage.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, title: 'Home'},
+  //figure out why authguard not working for login page
   { path: 'login', component: LoginComponent, title: 'Login Page'},
   { path: 'entry', component: EntryComponent, canActivate:[AuthGuard], title: 'Plan Entry'},
   { path: 'main', component: MainComponent, canActivate:[AuthGuard], title: 'Plans'},

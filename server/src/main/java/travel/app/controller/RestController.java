@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -71,12 +72,10 @@ public class RestController {
     @PostMapping(path = "/entry/post")
     @ResponseBody
     public ResponseEntity<Planner> postFormToRepo(@RequestParam MultiValueMap<String, String> formData,
-            @RequestParam(required = false) MultipartFile file, HttpSession sess) throws IOException {
+            @RequestParam(required = false) MultipartFile file) throws IOException {
         // planner.getCity()... after dinner
 
         Planner p = new Planner();
-
-        System.out.println("email is: " + sess.getAttribute("email"));
 
         // Client to server data
         String dateTimeString = formData.getFirst("date");
@@ -147,4 +146,13 @@ public class RestController {
         }
         return ResponseEntity.ok(combinedModelList);
     }
+
+    @DeleteMapping("/main")
+    @ResponseBody
+    public ResponseEntity<String> deleteEntryFromRepo(@RequestParam int pid){
+        plannerSvc.delPlanByUser(pid);
+        
+        return ResponseEntity.ok(pid + " is deleted from the repository");
+    }
+
 }

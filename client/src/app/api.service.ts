@@ -52,4 +52,10 @@ export class ApiService {
         return firstValueFrom(this.http.get<CombinedModel[]>(URL_MAIN, {params}))
     }
 
+    deleteDataFromServer(pid:number): Promise<any>{
+        const params = new HttpParams()
+                        .set('pid', pid)
+        return firstValueFrom(this.http.delete(URL_MAIN, {params}))
+    }
+
 }

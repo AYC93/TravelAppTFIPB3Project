@@ -61,7 +61,9 @@ export class GoogleApiService {
 
   // logout button
   public logout() {
-    this.oAuthSvc.logOut()
+    this.oAuthSvc.revokeTokenAndLogout()
+    this.oAuthSvc.logOut(true)
+    localStorage.clear()
     this.router.navigate(['/'])
   }
 

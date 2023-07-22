@@ -1,4 +1,3 @@
-
 <table>
     <thead>
         <tr>
@@ -9,6 +8,7 @@
             <th>Uploaded File</th>
             <th>Weather</th>
             <th>Map</th>
+            <th></th>
         </tr>
     </thead>
     <tbody *ngIf="combinedModel$ | async as combinedModels">
@@ -29,28 +29,29 @@
                 {{ c.planner.url }}
             </td>
             <td *ngFor="let w of c.weatherTempInfo.weatherInfoList">
-                <tr>
-                    <img src="https://openweathermap.org/img/wn/{{ w.icon }}@2x.png" alt="">
-                </tr>
-                <tr>
-                    Forecast Description: {{ w.main }} {{ w.description }}
-                </tr>
-                <tr>
-                    Current Temp: {{ c.weatherTempInfo.tempInfo.temp }}
-                </tr>
-                <tr>
-                    Max Temp: {{ c.weatherTempInfo.tempInfo.tempMax }}
-                </tr>
-                <tr>
-                    Min Temp: {{ c.weatherTempInfo.tempInfo.tempMin }}
-                </tr>                
-            </td>
-            <td>
+        <tr>
+            <img src="https://openweathermap.org/img/wn/{{ w.icon }}@2x.png" alt="">
+        </tr>
+        <tr>
+            Forecast Description: {{ w.main }} {{ w.description }}
+        </tr>
+        <tr>
+            Current Temp: {{ c.weatherTempInfo.tempInfo.temp }}
+        </tr>
+        <tr>
+            Max Temp: {{ c.weatherTempInfo.tempInfo.tempMax }}
+        </tr>
+        <tr>
+            Min Temp: {{ c.weatherTempInfo.tempInfo.tempMin }}
+        </tr>
+        </td>
+        <td>
 
-            </td>
-            <td>
+        </td>
+        <td>
+            <button mat-raised-button color="basic" (click)='deleteRow(c.planner.pid)'>Del</button>
 
-            </td>
+        </td>
         </tr>
     </tbody>
 </table>

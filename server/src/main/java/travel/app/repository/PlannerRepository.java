@@ -118,7 +118,8 @@ public class PlannerRepository {
     }
 
     public void delPlanByUser(int pid) {
-
+        jdbcTemplate.update(SQL_DEL_TRAVELPLAN, pid);
+        System.out.println("Entry" + pid + " is deleted");
     }
 
     // get file to view

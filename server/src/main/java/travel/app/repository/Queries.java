@@ -22,6 +22,10 @@ public class Queries {
                         ORDER BY tp.datetime ASC;
                         """;
 
+        public static final String SQL_DEL_TRAVELPLAN = """
+                        DELETE from travelplan where pid = ?
+                        """;
+
         public static final String SQL_FIND_EMAILID="""
                         select email_id as emailId from user where email = ?
                         """;

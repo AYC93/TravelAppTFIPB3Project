@@ -32,6 +32,10 @@ public class PlannerService {
         return plannerRepo.getPlanByUser(emailId);
     }
 
+    public void delPlanByUser(int pid){
+        plannerRepo.delPlanByUser(pid);
+    }
+
     // DateTimeFormatter string to localdatetime
     public LocalDateTime stringToDateTime(String dateTimeString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");

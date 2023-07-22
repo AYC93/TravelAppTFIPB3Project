@@ -46,7 +46,6 @@ export class EntryComponent implements OnInit {
     // weatherQuery.city = this.form.get('city')?.value as string
     // weather info process
   process() {
-    
     const f: File = this.fileRef.nativeElement.files[0]
     const formField: FormField = {
       ... this.form.value,

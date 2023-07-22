@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { GoogleApiService } from '../google-api.service';
 import { LocalStorageService } from '../localstorage.service';
@@ -19,18 +18,17 @@ export class LoginComponent implements AfterViewInit {
   router = inject(Router)
   apiSvc = inject(ApiService)
   local = inject(LocalStorageService)
+  googleLogin=inject(GoogleApiService)
 
-  constructor(readonly googleLogin: GoogleApiService) {
-    console.info(">>> email: " + (googleLogin.email))
-    console.info(">>> idToken: " + (googleLogin.idToken))
-  }
+  // constructor(googleLogin: GoogleApiService) {
+  //   console.info(">>> email: " + (googleLogin.email))
+  //   console.info(">>> idToken: " + (googleLogin.idToken))
+  // }
 
   ngAfterViewInit(): void {
-  }
-
-  toDashboard(){
-      this.router.navigate(['/main'])
-      this.email = this.googleLogin.email
+    this.email = this.googleLogin.email
+    console.info(">>> email: " + (this.googleLogin.email))
+    console.info(">>> idToken: " + (this.googleLogin.idToken))
     if (this.email) {
       this.apiSvc.postEmailToBackend(this.email).subscribe({
         next: n => {
@@ -43,5 +41,13 @@ export class LoginComponent implements AfterViewInit {
       })
     }
   }
+
+  toDashboard(){
+      this.router.navigate(['/main'])
+  }
+
+  logout(){
+    this.googleLogin.logout()
+  } 
 
 }
