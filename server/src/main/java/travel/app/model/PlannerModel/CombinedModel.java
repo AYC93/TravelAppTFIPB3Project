@@ -11,4 +11,6 @@ import travel.app.model.WeatherApiModel.WeatherTempInfo;
 public class CombinedModel {
     private WeatherTempInfo weatherTempInfo;
     private Planner planner;
+
+    
 }

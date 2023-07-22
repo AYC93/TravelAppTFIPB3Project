@@ -2,6 +2,7 @@ package travel.app.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.servlet.http.HttpSession;
+import travel.app.model.PlannerModel.CombinedModel;
 import travel.app.model.PlannerModel.Planner;
+import travel.app.model.WeatherApiModel.TempInfo;
+import travel.app.model.WeatherApiModel.WeatherTempInfo;
 import travel.app.model.dto.LoginDTO;
 import travel.app.service.RepoService.PlannerService;
 import travel.app.service.RepoService.UserService;
+import travel.app.service.WeatherService.WeatherException;
+import travel.app.service.WeatherService.WeatherService;
 
 @Controller
 @RequestMapping(path = "/api")
@@ -39,6 +48,9 @@ public class RestController {
 
     @Autowired
     WeatherController weatherController;
+
+    @Autowired
+    WeatherService weatherSvc;
 
     @PostMapping(path = "/entry")
     @ResponseBody
@@ -98,10 +110,44 @@ public class RestController {
 
     @GetMapping(path = "/main")
     @ResponseBody
-    public ResponseEntity<List<Planner>> getDataFromEmailId(@RequestParam int emailId) {
+    public ResponseEntity<List<CombinedModel>> getDataFromEmailId(@RequestParam int emailId) {
         List<Planner> plannerList = new LinkedList<>();
-        plannerList.addAll(plannerSvc.getPlanByUser(emailId));
-        System.out.println(plannerList);
-        return ResponseEntity.ok(plannerList);
+        List<CombinedModel> combinedModelList = new LinkedList<>();
+
+        JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+
+        plannerList = plannerSvc.getPlanByUser(emailId);
+
+        for (Planner planner : plannerList) {
+            String city = planner.getCity();
+            List<WeatherTempInfo> weatherTempInfoList;
+            try {
+                weatherTempInfoList = weatherSvc.getWeather(city);
+
+                weatherTempInfoList.forEach(weatherTempInfo -> {
+                    JsonArrayBuilder weatherArrBuilder = Json.createArrayBuilder();
+                    weatherTempInfo.getWeatherInfoList().forEach(d -> weatherArrBuilder.add(Json.createObjectBuilder()
+                            .add("main", d.main())
+                            .add("description", d.description())
+                            .add("icon", d.icon())));
+                    objBuilder.add("weather", weatherArrBuilder);
+
+                    JsonObjectBuilder tempObjBuilder = Json.createObjectBuilder();
+                    TempInfo tempInfo = weatherTempInfo.getTempInfo();
+                    tempObjBuilder.add("temp", tempInfo.temp())
+                            .add("tempMax", tempInfo.tempMax())
+                            .add("tempMin", tempInfo.tempMin());
+
+                    objBuilder.add("main", tempObjBuilder);
+                    CombinedModel combinedModel = new CombinedModel(weatherTempInfo, planner);
+                    combinedModelList.add(combinedModel);
+                });
+            } catch (WeatherException e) {
+                System.out.println(Json.createObjectBuilder()
+                .add("error", e.getMessage())
+                .build().toString());
+            }
+        }
+        return ResponseEntity.ok(combinedModelList);
     }
 }
