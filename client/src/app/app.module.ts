@@ -23,6 +23,7 @@ import { EntryComponent } from './planner/entry/entry.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { GoogleApiService } from './google-api.service';
 import { AuthGuard } from './auth-guard.service';
+import { LocalStorageService } from './localstorage.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, title: 'Home'},
@@ -46,7 +47,7 @@ const appRoutes: Routes = [
     BrowserModule, HttpClientModule, ReactiveFormsModule, RouterModule.forRoot(appRoutes, { scrollPositionRestoration: "enabled" }), BrowserAnimationsModule, MatButtonModule, MatSelectModule,
     OAuthModule.forRoot(), MatSnackBarModule
   ],
-  providers: [ApiService, PlannerService, GoogleApiService, AuthGuard],
+  providers: [ApiService, PlannerService, GoogleApiService, AuthGuard, LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { GoogleApiService } from 'src/app/google-api.service';
 import { PlannerService } from 'src/app/planner.service';
-import { FormField } from 'src/app/model';
+import { FormField } from 'src/app/models/model';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -32,22 +32,7 @@ export class EntryComponent implements OnInit {
   svc = inject(PlannerService)
 
   ngOnInit(): void {
-    if (localStorage.getItem('email') === null || localStorage.getItem('email') === '') {
-      window.location.reload
-    } else {
-      const storedEmail = localStorage.getItem('email')
-      this.email = storedEmail ? storedEmail : ''
-    }
-    this.email = this.googleLogin.email
-    if (this.email) {
-      this.apiSvc.postEmailToBackend(this.email).subscribe({
-        next: n => {
-          console.log('Response from server... ', n)
-          console.info("posted>>> " + this.email)
-        },
-        error: err => { console.log('Error!!!... ', err) }
-      })
-    }
+    
     // initialise form
     this.form = this.createForm()
     this.apiSvc.postEmailToBackend(this.email)

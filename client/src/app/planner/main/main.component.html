@@ -1,4 +1,60 @@
 
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>City</th>
+            <th>Description</th>
+            <th>Destination Type</th>
+            <th>Uploaded File</th>
+            <th>Weather</th>
+            <th>Map</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="combinedModel$ | async as combinedModels">
+        <tr row="" *ngFor="let c of combinedModels">
+            <td>
+                {{ c.planner.dateTime }}
+            </td>
+            <td>
+                {{ c.planner.city }}
+            </td>
+            <td>
+                {{ c.planner.description }}
+            </td>
+            <td>
+                {{ c.planner.destinationType }}
+            </td>
+            <td>
+                {{ c.planner.url }}
+            </td>
+            <td *ngFor="let w of c.weatherTempInfo.weatherInfoList">
+                <tr>
+                    <img src="https://openweathermap.org/img/wn/{{ w.icon }}@2x.png" alt="">
+                </tr>
+                <tr>
+                    Forecast Description: {{ w.main }} {{ w.description }}
+                </tr>
+                <tr>
+                    Current Temp: {{ c.weatherTempInfo.tempInfo.temp }}
+                </tr>
+                <tr>
+                    Max Temp: {{ c.weatherTempInfo.tempInfo.tempMax }}
+                </tr>
+                <tr>
+                    Min Temp: {{ c.weatherTempInfo.tempInfo.tempMin }}
+                </tr>                
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 
 <tr>
     <button mat-raised-button color="basic" [routerLink]="['/entry']">Planner</button>
