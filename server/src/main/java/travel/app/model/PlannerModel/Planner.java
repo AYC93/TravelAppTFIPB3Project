@@ -1,6 +1,5 @@
 package travel.app.model.PlannerModel;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;

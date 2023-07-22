@@ -23,10 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
-import jakarta.servlet.http.HttpSession;
 import travel.app.model.PlannerModel.CombinedModel;
 import travel.app.model.PlannerModel.Planner;
 import travel.app.model.WeatherApiModel.TempInfo;
+import travel.app.model.WeatherApiModel.WeatherLoc;
 import travel.app.model.WeatherApiModel.WeatherTempInfo;
 import travel.app.model.dto.LoginDTO;
 import travel.app.service.RepoService.PlannerService;
@@ -135,6 +135,14 @@ public class RestController {
                             .add("tempMin", tempInfo.tempMin());
 
                     objBuilder.add("main", tempObjBuilder);
+
+                    JsonObjectBuilder geoObjBuilder = Json.createObjectBuilder();
+                    WeatherLoc weatherLoc = weatherTempInfo.getWeatherLoc();
+                    tempObjBuilder.add("lat", weatherLoc.lat())
+                            .add("lon", weatherLoc.lon());
+
+                    objBuilder.add("geo", geoObjBuilder);
+
                     CombinedModel combinedModel = new CombinedModel(weatherTempInfo, planner);
                     combinedModelList.add(combinedModel);
                 });

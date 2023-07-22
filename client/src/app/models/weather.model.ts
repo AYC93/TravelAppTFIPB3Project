@@ -18,4 +18,9 @@ export interface WeatherQuery {
     tempMin: string
     tempMax: string
   }
+
+  export interface WeatherLoc{
+    lat: string
+    lon: string
+  }
   

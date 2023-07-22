@@ -83,7 +83,8 @@ public class WeatherService {
                     jsonTempInfo.getJsonNumber("temp_min").toString(),
                     jsonTempInfo.getJsonNumber("temp_max").toString());
 
-            WeatherTempInfo weatherTempInfo = new WeatherTempInfo(weatherInfo, tempInfo);
+
+            WeatherTempInfo weatherTempInfo = new WeatherTempInfo(weatherInfo, tempInfo, weatherLoc);
             weatherTempInfoList.add(weatherTempInfo);
         }
 

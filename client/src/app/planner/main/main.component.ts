@@ -29,6 +29,8 @@ export class MainComponent implements OnInit, OnChanges {
 
   ngOnChanges(){
   }
+  // https://medium.com/swlh/angular-google-map-component-basics-and-tips-7ff679e383ff
+  // google map
 
   postEmailToGetId() {
     this.email = this.googleLogin.email
@@ -64,6 +66,7 @@ export class MainComponent implements OnInit, OnChanges {
     }
   }
 
+  // to add in delete for s3 as well
   deleteRow(pid: number){
     this.apiSvc.deleteDataFromServer(pid).then(
       resp=> {

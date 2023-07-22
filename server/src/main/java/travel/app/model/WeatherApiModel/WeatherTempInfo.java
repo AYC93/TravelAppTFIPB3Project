@@ -5,10 +5,12 @@ import java.util.List;
 public class WeatherTempInfo {
     private List<WeatherInfo> weatherInfoList;
     private TempInfo tempInfo;
+    private WeatherLoc weatherLoc;
 
-    public WeatherTempInfo(List<WeatherInfo> weatherInfoList, TempInfo tempInfo) {
+    public WeatherTempInfo(List<WeatherInfo> weatherInfoList, TempInfo tempInfo, WeatherLoc weatherLoc) {
         this.weatherInfoList = weatherInfoList;
         this.tempInfo = tempInfo;
+        this.weatherLoc = weatherLoc;
     }
 
     public List<WeatherInfo> getWeatherInfoList() {
@@ -17,5 +19,9 @@ public class WeatherTempInfo {
 
     public TempInfo getTempInfo() {
         return tempInfo;
+    }
+
+    public WeatherLoc getWeatherLoc() {
+        return weatherLoc;
     }
 }

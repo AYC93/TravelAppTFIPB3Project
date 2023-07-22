@@ -24,6 +24,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { GoogleApiService } from './google-api.service';
 import { AuthGuard } from './auth-guard.service';
 import { LocalStorageService } from './localstorage.service';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, title: 'Home'},
@@ -46,7 +47,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule, RouterModule.forRoot(appRoutes, { scrollPositionRestoration: "enabled" }), BrowserAnimationsModule, MatButtonModule, MatSelectModule,
-    OAuthModule.forRoot(), MatSnackBarModule
+    OAuthModule.forRoot(), MatSnackBarModule, GoogleMapsModule
   ],
   providers: [ApiService, PlannerService, GoogleApiService, AuthGuard, LocalStorageService],
   bootstrap: [AppComponent]
