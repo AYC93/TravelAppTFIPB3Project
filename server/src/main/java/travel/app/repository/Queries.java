@@ -22,15 +22,19 @@ public class Queries {
                         ORDER BY tp.datetime ASC;
                         """;
 
+        public static final String SQL_FIND_URL = """
+                        select url from travelplan where pid = ?
+                        """;
+
         public static final String SQL_DEL_TRAVELPLAN = """
                         DELETE from travelplan where pid = ?
                         """;
 
-        public static final String SQL_FIND_EMAILID="""
+        public static final String SQL_FIND_EMAILID = """
                         select email_id as emailId from user where email = ?
                         """;
 
-        public static final String SQL_ADD_TRAVELPLAN="""
+        public static final String SQL_ADD_TRAVELPLAN = """
                         INSERT INTO travelplan (datetime, description, city, destination, url, email_id) VALUES (?, ?, ?, ?, ?, ?)
                         """;
 }

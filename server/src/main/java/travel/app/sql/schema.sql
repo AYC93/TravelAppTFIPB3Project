@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
   email_id int(21) NOT NULL AUTO_INCREMENT,
   email VARCHAR(100) NOT NULL,
-PRIMARY KEY (email_id)
+  UNIQUE(email_id) PRIMARY KEY (email_id)
 );
 
 DROP TABLE IF EXISTS travelplan;
@@ -19,6 +19,7 @@ CREATE TABLE travelplan (
   url varchar(100),
   email_id int(60) NOT NULL,
   PRIMARY KEY (pid),
+  UNIQUE (pid)
   CONSTRAINT email_id 
   FOREIGN KEY (email_id)
  REFERENCES user(email_id)
