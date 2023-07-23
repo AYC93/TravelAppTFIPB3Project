@@ -29,6 +29,7 @@ import travel.app.model.WeatherApiModel.TempInfo;
 import travel.app.model.WeatherApiModel.WeatherLoc;
 import travel.app.model.WeatherApiModel.WeatherTempInfo;
 import travel.app.model.dto.LoginDTO;
+import travel.app.service.RepoService.EmailService;
 import travel.app.service.RepoService.PlannerService;
 import travel.app.service.RepoService.UserService;
 import travel.app.service.WeatherService.WeatherException;
@@ -50,6 +51,9 @@ public class RestController {
 
     @Autowired
     WeatherService weatherSvc;
+
+    @Autowired
+    EmailService emailSvc;
 
     @PostMapping(path = "/entry")
     @ResponseBody
@@ -85,7 +89,10 @@ public class RestController {
         String destinationType = formData.getFirst("destination");
         String email = formData.getFirst("email");
         int emailId = userSvc.getEmailId(email);
-        String url = ""; // if no file url empty string
+        String url = ""; // if no file url empty string\
+
+        String message = "Date: %s, %s, city of interest %s".formatted(dateTime, description, city);
+        emailSvc.sendEmail(email, message);
 
         // File upload & generate url
         if(file != null)
@@ -101,6 +108,8 @@ public class RestController {
         p.setEmailId(emailId);
         p.setUrl(url);
         p.setPid(pid);
+
+
 
         // error when submitting form without uploadfile
 
