@@ -85,9 +85,12 @@ public class RestController {
         String destinationType = formData.getFirst("destination");
         String email = formData.getFirst("email");
         int emailId = userSvc.getEmailId(email);
+        String url = ""; // if no file url empty string
 
         // File upload & generate url
-        String url = plannerSvc.uploadFileByUser(file).toString();
+        if(file != null)
+         url = plannerSvc.uploadFileByUser(file).toString();
+        
         // Form upload & generate pid
         int pid = plannerSvc.addPlanByUser(dateTime, description, city, destinationType, email, url);
         // Setup planner
@@ -98,6 +101,8 @@ public class RestController {
         p.setEmailId(emailId);
         p.setUrl(url);
         p.setPid(pid);
+
+        // error when submitting form without uploadfile
 
         String response = "PID is " + String.valueOf(p.getPid());
 

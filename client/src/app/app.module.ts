@@ -9,6 +9,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatCardModule} from '@angular/material/card';
 
 
 import { AppComponent } from './app.component';
@@ -25,6 +31,7 @@ import { GoogleApiService } from './google-api.service';
 import { AuthGuard } from './auth-guard.service';
 import { LocalStorageService } from './localstorage.service';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { NavBarComponent } from './navbar/navbar.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, title: 'Home'},
@@ -44,10 +51,11 @@ const appRoutes: Routes = [
     MainComponent,
     WeatherComponent,
     EntryComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule, RouterModule.forRoot(appRoutes, { scrollPositionRestoration: "enabled" }), BrowserAnimationsModule, MatButtonModule, MatSelectModule,
-    OAuthModule.forRoot(), MatSnackBarModule, GoogleMapsModule
+    OAuthModule.forRoot(), MatSnackBarModule, GoogleMapsModule, MatToolbarModule, MatSidenavModule, MatListModule, MatIconModule, MatAutocompleteModule, MatCardModule
   ],
   providers: [ApiService, PlannerService, GoogleApiService, AuthGuard, LocalStorageService],
   bootstrap: [AppComponent]

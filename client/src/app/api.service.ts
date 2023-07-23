@@ -27,7 +27,6 @@ export class ApiService {
 
     // Set data for send for file uploading
     async postFormToBackend(formField: FormField, email: string): Promise<any> {
-        console.info(formField.file.name)
         const formData = new FormData()
         formData.set('file', formField.file)
         formData.set('date', formField.date.toLocaleString())
@@ -49,6 +48,7 @@ export class ApiService {
         emailId = this.local.emailIdLocalPull()
         const params = new HttpParams()
                         .set('emailId', emailId)
+        console.log('emailID params: ' + params)
         return firstValueFrom(this.http.get<CombinedModel[]>(URL_MAIN, {params}))
     }
 
