@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { firstValueFrom, Observable } from "rxjs";
 import { CombinedModel, FormField, ServerEmail } from "./models/model";
 import { LocalStorageService } from "./localstorage.service";
-
-const URL_ENTRY = 'http://localhost:8080/api/entry'
-const URL_MAIN = 'http://localhost:8080/api/main'
+const URL = 'fuzzy-authority-production.up.railway.app'
+const URL_ENTRY = '${URL}/api/entry'
+const URL_MAIN = '${URL}/api/main'
 
 @Injectable()
 export class ApiService {
