@@ -7,6 +7,9 @@ import { PlannerService } from 'src/app/planner.service';
 import { FormField } from 'src/app/models/model';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { emailSelector } from 'src/app/redux/selector';
+import { ReduxAppState } from 'src/app/redux/state.model';
 
 
 @Component({
@@ -19,7 +22,7 @@ export class EntryComponent implements OnInit {
 
   @ViewChild('uploadDoc')
   fileRef!: ElementRef
-  email: string = this.googleSvc.email
+  email!: string
   form!: FormGroup
 
   fb = inject(FormBuilder)
@@ -31,11 +34,12 @@ export class EntryComponent implements OnInit {
   // includes Japanese cities and destination types
   svc = inject(PlannerService)
 
+  constructor(private store: Store<ReduxAppState>) {
+    this.store.select(emailSelector).subscribe((email: string) => this.email = email);
+  }
+  
   ngOnInit(): void {
-    
     // initialise form
-    this.form = this.createForm()
-    this.apiSvc.postEmailToBackend(this.email)
     this.form = this.createForm()
   }
 

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
+import { ReduxAppState } from '../redux/state.model';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-
-  // auth0 injection
-// auth=inject(AuthService)
-// googleLogin=inject(GoogleApiService)
-
-}
+  store = inject(Store<ReduxAppState>)
+    
+  }
