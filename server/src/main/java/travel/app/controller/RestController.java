@@ -2,6 +2,7 @@ package travel.app.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -171,10 +172,13 @@ public class RestController {
 
     @DeleteMapping("/main")
     @ResponseBody
-    public ResponseEntity<String> deleteEntryFromRepo(@RequestParam int pid){
+    public ResponseEntity<Map<String, Object>> deleteEntryFromRepo(@RequestParam int pid){
         plannerSvc.delPlanByUser(pid);
+
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", pid + " is deleted from the repository");
         
-        return ResponseEntity.ok(pid + " is deleted from the repository");
+        return ResponseEntity.ok(resp);
     }
 
 }
