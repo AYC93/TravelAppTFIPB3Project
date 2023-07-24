@@ -2,8 +2,8 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'work.shiok.planners',
-  appName: 'shiok-planners',
-  webDir: 'dist',
+  appName: 'shiokplanners',
+  webDir: 'dist/project',
   server: {
     androidScheme: 'https'
   }
