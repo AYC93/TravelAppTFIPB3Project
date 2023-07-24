@@ -55,8 +55,8 @@ public class PlannerRepository {
     // display all data in table
     public List<Planner> getPlanByUser(int emailId) {
         List<Planner> plannerList = new LinkedList<>();
-        
-        // replace email with login auth email in the future        
+
+        // replace email with login auth email in the future
         SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_TRAVELPLAN, emailId);
         while (rs.next()) {
             Planner planner = Planner.createFromSQLRowSet(rs);
@@ -66,7 +66,8 @@ public class PlannerRepository {
     }
 
     // String email to be input here
-    public int addPlanByUser(LocalDateTime dateTime, String description, String city, String destinationType, String email, String url) {
+    public int addPlanByUser(LocalDateTime dateTime, String description, String city, String destinationType,
+            String email, String url) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -90,22 +91,22 @@ public class PlannerRepository {
     }
 
     // Upload via S3
-    public URL uploadFileByUser(MultipartFile file) throws IOException{
+    public URL uploadFileByUser(MultipartFile file) throws IOException {
         // Custom metadata
         Map<String, String> fileData = new HashMap<>();
         fileData.put("filename", file.getOriginalFilename());
         fileData.put("upload-date", (new Date()).toString());
-        
+
         ObjectMetadata md = new ObjectMetadata();
         md.setContentType(file.getContentType());
         md.setContentLength(file.getSize());
         md.setUserMetadata(fileData);
 
         String fileKey = "file/%s".formatted(UUID.randomUUID().toString()
-                                .substring(0, 8));
-        
-        PutObjectRequest pReq = new PutObjectRequest(BUCKETNAME, fileKey, 
-                                file.getInputStream(), md);
+                .substring(0, 8));
+
+        PutObjectRequest pReq = new PutObjectRequest(BUCKETNAME, fileKey,
+                file.getInputStream(), md);
         pReq = pReq.withCannedAcl(CannedAccessControlList.PublicRead);
 
         try {
@@ -119,19 +120,19 @@ public class PlannerRepository {
 
     public void delPlanByUser(int pid) {
         String url = jdbcTemplate.queryForObject(SQL_FIND_URL, String.class, pid);
-        if(!url.isEmpty()){
-        String filename = url.substring(url.lastIndexOf("file"));
-        System.out.println(filename);
-        s3.deleteObject(BUCKETNAME, filename);
-         }
+        if (!url.isEmpty()) {
+            String filename = url.substring(url.lastIndexOf("file"));
+            System.out.println(filename);
+            s3.deleteObject(BUCKETNAME, filename);
+        }
         jdbcTemplate.update(SQL_DEL_TRAVELPLAN, pid);
         System.out.println("Entry" + pid + " is deleted");
     }
 
     // get file to view
     // private MultipartFile getFileByPid(int pid) {
-    //     Query query = new Query(Criteria.where("pid").is(pid));
-    //     return mongoTemplate.findOne(query, MultipartFile.class, "file");
+    // Query query = new Query(Criteria.where("pid").is(pid));
+    // return mongoTemplate.findOne(query, MultipartFile.class, "file");
     // }
 
 }

@@ -43,8 +43,11 @@ export class MainComponent implements OnInit {
           console.info("EmailId = " + this.emailId)
           try{
           this.combinedModel$ = this.apiSvc.getDataFromServer(this.emailId)
-          this.combinedModel$.then(resp =>
-            console.log("Server sent data to view: " + resp))
+          this.combinedModel$.then(resp =>{
+            console.log("Server sent data to view: ")
+            resp.forEach((data, i)=> {
+              console.log(`Row ${i}: `, data)
+            })})
         } catch (err) {
           console.error('Error from server', err)
         }
