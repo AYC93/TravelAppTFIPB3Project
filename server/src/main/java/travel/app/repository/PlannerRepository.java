@@ -119,9 +119,11 @@ public class PlannerRepository {
 
     public void delPlanByUser(int pid) {
         String url = jdbcTemplate.queryForObject(SQL_FIND_URL, String.class, pid);
+        if(!url.isEmpty()){
         String filename = url.substring(url.lastIndexOf("file"));
         System.out.println(filename);
         s3.deleteObject(BUCKETNAME, filename);
+         }
         jdbcTemplate.update(SQL_DEL_TRAVELPLAN, pid);
         System.out.println("Entry" + pid + " is deleted");
     }
