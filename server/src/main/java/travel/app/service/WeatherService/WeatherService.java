@@ -47,7 +47,7 @@ public class WeatherService {
             String lat = weatherLoc.lat();
             String lon = weatherLoc.lon();
 
-            // https://api.openweathermap.org/data/2.5/weather?q=<city>&units=<units>&appid=<appid>
+            // https://api.openweathermap.org/data/2.5/weather?lat=<lat>&lon=<lon>&units=<units>&appid=<appid>            
             String url = UriComponentsBuilder.fromUriString(URL)
                     .queryParam("lat", lat)
                     .queryParam("lon", lon)
