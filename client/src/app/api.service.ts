@@ -57,7 +57,7 @@ export class ApiService {
     deleteDataFromServer(pid:number): Promise<any>{
         const params = new HttpParams()
                         .set('pid', pid)
-        return firstValueFrom(this.http.delete(URL_MAIN, {params}))
+        return firstValueFrom(this.http.delete(URL_MAIN, {params, responseType:'text'}))
     }
 
 }

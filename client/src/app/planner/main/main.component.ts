@@ -1,5 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
-import { switchMap } from 'rxjs';
+import { Component, OnChanges, OnInit, inject } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { GoogleApiService } from 'src/app/google-api.service';
 import { LocalStorageService } from 'src/app/localstorage.service';
@@ -10,7 +9,11 @@ import { CombinedModel } from 'src/app/models/model';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit, OnChanges {
+export class MainComponent implements OnInit {
+
+  center!:google.maps.LatLngLiteral
+  lat!:number
+  lon!:number
 
   pid!: number
   email!: string
@@ -26,11 +29,6 @@ export class MainComponent implements OnInit, OnChanges {
     this.postEmailToGetId()
     // dashboardViewInit
   }
-
-  ngOnChanges(){
-  }
-  // https://medium.com/swlh/angular-google-map-component-basics-and-tips-7ff679e383ff
-  // google map
 
   postEmailToGetId() {
     this.email = this.googleLogin.email
