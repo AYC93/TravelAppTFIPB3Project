@@ -44,7 +44,7 @@ public class UserRepository {
         SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_FIND_EMAILID, email);
         while (rs.next())
             emailId = rs.getInt("emailId");
-        System.out.println(emailId);
+        System.out.println("Get Email ID from repo: " + emailId);
         return emailId;
     }
 }
