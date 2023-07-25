@@ -31,8 +31,8 @@ jobs:
       - name: Deploy to railway
         env: 
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_PROJECT: 64ebdb7f-b3c0-4849-9cbb-8aad432d1a22
         run: |
           cd server
-          railway init ${{ secrets.RAILWAY_PROJECT_ID }}
+          railway init $RAILWAY_PROJECT
           railway up
