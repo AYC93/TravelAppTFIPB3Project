@@ -2,36 +2,36 @@ name: Continuous Build and Deploy Railway
 
 on:
   push:
-      branches:
-        - main
-      paths:
-        - '/server/**'
+    branches:
+      - main
+    paths:
+      - '/server/**'
 
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
-        
-      steps:
-        - name: checkout
-          uses: actions/checkout@v3
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-        - name: setup jdk 
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'temurin'
-            java-version: '17'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
 
-        - name: mvn build
-          run: cd server && mvn package -DskipTests
+      - name: setup jdk 
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: mvn build
+        run: cd server && mvn package -DskipTests
                 
-        - name: Install railway
-          run: |
-            curl -sSL https://railway.app/cli | bash
+      - name: Install railway
+        run: |
+          curl -sSL https://railway.app/cli | bash
 
-        - name: Deploy to railway
-          env: 
+      - name: Deploy to railway
+        env: 
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT: ${{ secrets.RAILWAY_ID }}
+          RAILWAY_PROJECT: ${{ secrets.RAILWAY_PROJECT_ID }}
         run: |
           cd server
           railway init $RAILWAY_PROJECT
