@@ -13,6 +13,6 @@ export class PlannerService{
       ]
 
       destinationType: String[]=[
-        'Landmark', 'Accomodation', 'Transportation'
+        'Landmark', 'Place', 'Accomodation', 'Transportation'
       ]
 }
