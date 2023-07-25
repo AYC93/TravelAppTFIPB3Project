@@ -26,7 +26,7 @@ jobs:
                 
       - name: Install railway
         run: |
-          curl -sSL https://railway.app/cli | bash
+          curl -fsSL cli.new | bash
 
       - name: Deploy to railway
         env: 
