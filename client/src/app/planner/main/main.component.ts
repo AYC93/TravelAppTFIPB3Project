@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { GoogleApiService } from 'src/app/google-api.service';
 import { LocalStorageService } from 'src/app/localstorage.service';
@@ -40,57 +40,19 @@ export class MainComponent implements OnInit {
     this.populateView();
   }
 
-  // postEmailToGetId() {
-  //   this.email = this.googleLogin.email
-  //   if (this.email) {
-  //     this.apiSvc.postEmailToBackend(this.email).subscribe({
-  //       next: n => {
-  //         console.log('Response from server... ', n)
-  //         // to convert back to int before sending to server later
-  //         localStorage.setItem("emailIdString", n.emailId.toString())
-  //         this.emailId = this.local.emailIdLocalPull()
-  //         console.info("posted>>> " + this.email)
-  //         console.info("EmailId = " + this.emailId)
-  //         try{
-  //         this.combinedModel$ = this.apiSvc.getDataFromServer(this.emailId)
-  //         this.combinedModel$.then(resp =>{
-  //           console.log("Server sent data to view: ")
-  //           resp.forEach((data, i)=> {
-  //             console.log(`Row ${i}: `, data)
-  //           })})
-  //       } catch (err) {
-  //         console.error('Error from server', err)
-  //       }
-  //       },
-  //       error: err => { console.log('Error!!!... ', err) }
-  //     })
-  //   }
-  // }
-
   populateView() {
     try {
       this.apiSvc.getDataFromServer(this.emailId).then((resp) => {
         this.fetchedCombinedModel = resp;
         this.store.dispatch(updateEntriesAction({payload: this.fetchedCombinedModel}))
         this.store.select(dashboardSelector)
-          .subscribe((entries: CombinedModel[]) => this.combinedModel$ = new Promise(res => res(entries))); //refactor
+          .subscribe((entries: CombinedModel[]) => this.combinedModel$ = new Promise(res => res(entries)));
       })
     } catch (err) {
       console.error('Error from server', err)
     }
   }
 
-  // populateView() {
-  //   try {
-  //     this.combinedModel$ = this.apiSvc.getDataFromServer(this.emailId)
-  //     this.combinedModel$.then(resp =>
-  //       console.log("Server sent data to view: " + resp.forEach))
-  //   } catch (err) {
-  //     console.error('Error from server', err)
-  //   }
-  // }
-
-  // to add in delete for s3 as well
   deleteRow(pid: number){
     this.apiSvc.deleteDataFromServer(pid).then(
       resp=> {
@@ -100,6 +62,4 @@ export class MainComponent implements OnInit {
       console.error('Error with deleting...', err)
     })
   }
-
-  //TODO to display all the things input from form
 }
