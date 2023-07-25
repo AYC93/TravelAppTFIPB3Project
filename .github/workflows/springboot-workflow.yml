@@ -29,10 +29,9 @@ jobs:
           curl -fsSL cli.new | bash
 
       - name: Deploy to railway
-        env:
+        env: 
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT: 64ebdb7f-b3c0-4849-9cbb-8aad432d1a22
         run: |
           cd server
-          echo ${RAILWAY_TOKEN} | railway login
-          railway init
-          railway up
+          railway run
