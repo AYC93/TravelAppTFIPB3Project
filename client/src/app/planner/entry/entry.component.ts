@@ -77,7 +77,8 @@ export class EntryComponent implements OnInit {
     formatDate(new Date(), 'dd/MM/yyyy hh:mm a', 'en')
     return this.fb.group({
       date: this.fb.control<Date>(new Date(), [Validators.required]),
-      description: this.fb.control<string>('', [Validators.required, Validators.minLength(15)]),
+      description: this.fb.control<string>('', [Validators.required, 
+                Validators.minLength(15), Validators.maxLength(1000)]),
       city: this.fb.control<string>('', [Validators.required]),
       destination: this.fb.control<string>('', [Validators.required]),
       file: this.fb.control<File | null>(null)
