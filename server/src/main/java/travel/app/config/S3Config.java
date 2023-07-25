@@ -34,6 +34,6 @@ public class S3Config {
                 .withCredentials(new AWSStaticCredentialsProvider(cred))
                 .build();
 
-        return client;
+        return client; 
     }
 }
