@@ -32,7 +32,7 @@ jobs:
         
         run: |
           cd server
-          railway up
+          RAILWAY_TOKEN = $RAILWAY_TOKEN railway run
           env: 
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT: 1f9993e2-ab07-41c4-b6a3-086203b7ee9e
