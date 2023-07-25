@@ -1,4 +1,4 @@
-name: Continuous Build and Deploy
+name: Continuous Build and Deploy Angular
 
 env:
     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
