@@ -52,6 +52,10 @@
           <td class="tableHeader">Upload Document</td>
           <td class="tableContent">
             <input class="font formFieldComponent" type="file" formControlName="file" #uploadDoc>
+            <div class="hintComponent">Please upload a file (max size: 20MB)</div>
+            <div class="warningComponent" *ngIf="fileSizeExceeded">
+              File size exceeded 20MB
+            </div>
           </td>
         </tr>
       </table>

@@ -23,8 +23,9 @@ export class EntryComponent implements OnInit {
   @ViewChild('uploadDoc')
   fileRef!: ElementRef
   email!: string
+  fileSizeExceeded = false
+  
   form!: FormGroup
-
   fb = inject(FormBuilder)
   router = inject(Router)
   snackBar = inject(MatSnackBar)
@@ -44,12 +45,6 @@ export class EntryComponent implements OnInit {
     this.svc.japCities.sort()
   }
 
-  // POST FORM TO BACKEND
-     // post to directly view weather api
-    // weather info process
-    // const weatherQuery = this.form.value as CityWeather
-    // weatherQuery.city = this.form.get('city')?.value as string
-    // weather info process
   process() {
     const f: File = this.fileRef.nativeElement.files[0]
     const formField: FormField = {
@@ -85,6 +80,22 @@ export class EntryComponent implements OnInit {
       file: this.fb.control<File | null>(null)
     })
   }
+
+  // file size custom validation
+  fileSizeHTMLValidation(event: Event):void {
+    const fileUpload = event.target as HTMLInputElement
+    const file = fileUpload.files?.[0]
+
+    this.fileSizeExceeded = file ? file.size > 20 * 1024 * 2 : false
+
+    const fileControl = this.form.get('file')
+    if (fileControl)
+    if (this.fileSizeExceeded) {
+      fileControl.setErrors({ fileSizeExceeded: true })
+    } else {
+      fileControl.setErrors(null)
+  }
+}
 
   // authenticate login
   isLoggedIn(): boolean {
