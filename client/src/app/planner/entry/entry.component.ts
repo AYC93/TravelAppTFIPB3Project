@@ -41,6 +41,7 @@ export class EntryComponent implements OnInit {
   ngOnInit(): void {
     // initialise form
     this.form = this.createForm()
+    this.svc.japCities.sort()
   }
 
   // POST FORM TO BACKEND
