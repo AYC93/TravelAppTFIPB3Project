@@ -23,7 +23,7 @@ public class S3Config {
     private String s3Endpoint;
 
     @Bean
-    public AmazonS3 S3Client() {
+    public AmazonS3 S3Client() { 
         BasicAWSCredentials cred = new BasicAWSCredentials(accessKey, secretKey);
 
         EndpointConfiguration epConfig = new EndpointConfiguration(
