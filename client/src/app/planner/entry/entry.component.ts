@@ -81,23 +81,21 @@ export class EntryComponent implements OnInit {
     })
   }
 
-  fileSizeValidators(control: AbstractControl): ValidationErrors | null {
-    const file = control.value as File;
-    const maxSize = 20 * 1024 * 1024;
+  private fileSizeValidators(control: AbstractControl): ValidationErrors | null{
+    const file = control.value as File
+    const maxSize = 20 * 1024 * 1024
 
-    if (file && file.size > maxSize) {
-      return { fileSizeExceeded: true };
+    if (file && file.size > maxSize){
+      return { fileSizeExceeded: true }
     }
-
-    return null;
+    return null
   }
 
-  // file size custom validation
   fileSizeHTMLValidation(event: Event): void {
     const fileUpload = event.target as HTMLInputElement
     const file = fileUpload.files?.[0]
 
-    this.fileSizeExceeded = file ? file.size > 20 * 1024 * 2 : false
+    this.fileSizeExceeded = file ? file.size > 20 * 1024 * 1024 : false
 
     const fileControl = this.form.get('file')
     if (fileControl) {
