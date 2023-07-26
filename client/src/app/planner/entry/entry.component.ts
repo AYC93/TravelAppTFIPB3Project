@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { GoogleApiService } from 'src/app/google-api.service';
@@ -24,13 +24,13 @@ export class EntryComponent implements OnInit {
   fileRef!: ElementRef
   email!: string
   fileSizeExceeded = false
-  
+
   form!: FormGroup
   fb = inject(FormBuilder)
   router = inject(Router)
   snackBar = inject(MatSnackBar)
 
-  googleLogin=inject(GoogleApiService)
+  googleLogin = inject(GoogleApiService)
   apiSvc = inject(ApiService)
   // includes Japanese cities and destination types
   svc = inject(PlannerService)
@@ -38,7 +38,7 @@ export class EntryComponent implements OnInit {
   constructor(private store: Store<ReduxAppState>) {
     this.store.select(emailSelector).subscribe((email: string) => this.email = email);
   }
-  
+
   ngOnInit(): void {
     // initialise form
     this.form = this.createForm()
@@ -69,33 +69,46 @@ export class EntryComponent implements OnInit {
   }
 
   private createForm(): FormGroup {
-    
+
     formatDate(new Date(), 'dd/MM/yyyy hh:mm a', 'en')
     return this.fb.group({
       date: this.fb.control<Date>(new Date(), [Validators.required]),
-      description: this.fb.control<string>('', [Validators.required, 
-                Validators.minLength(15), Validators.maxLength(1000)]),
+      description: this.fb.control<string>('', [Validators.required,
+      Validators.minLength(15), Validators.maxLength(1000)]),
       city: this.fb.control<string>('', [Validators.required]),
       destination: this.fb.control<string>('', [Validators.required]),
-      file: this.fb.control<File | null>(null)
+      file: this.fb.control<File | null>(null, [this.fileSizeValidators])
     })
   }
 
+  fileSizeValidators(control: AbstractControl): ValidationErrors | null {
+    const file = control.value as File;
+    const maxSize = 20 * 1024 * 1024;
+
+    if (file && file.size > maxSize) {
+      return { fileSizeExceeded: true };
+    }
+
+    return null;
+  }
+
   // file size custom validation
-  fileSizeHTMLValidation(event: Event):void {
+  fileSizeHTMLValidation(event: Event): void {
     const fileUpload = event.target as HTMLInputElement
     const file = fileUpload.files?.[0]
 
     this.fileSizeExceeded = file ? file.size > 20 * 1024 * 2 : false
 
     const fileControl = this.form.get('file')
-    if (fileControl)
-    if (this.fileSizeExceeded) {
-      fileControl.setErrors({ fileSizeExceeded: true })
-    } else {
-      fileControl.setErrors(null)
+    if (fileControl) {
+      if (this.fileSizeExceeded) {
+        fileControl.setErrors({ fileSizeExceeded: true })
+      } else {
+        fileControl.setErrors(null)
+      }
+      fileControl.updateValueAndValidity()
+    }
   }
-}
 
   // authenticate login
   isLoggedIn(): boolean {
