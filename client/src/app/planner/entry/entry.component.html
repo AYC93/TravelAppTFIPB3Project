@@ -61,7 +61,7 @@
         </tr>
       </table>
       <button mat-flat-button color="accent" class="submitButton" type="submit"
-        [disabled]="form.invalid">Upload</button>
+        [disabled]="form.invalid || fileSizeExceeded">Upload</button>
     </form>
   </div>
 </div>
